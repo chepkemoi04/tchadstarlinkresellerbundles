@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="success-card">
+  <div class="success-icon" aria-hidden="true">✓</div>
+  <span class="section-kicker">{{ t.status_label }} · {% if order.status == 'demo_approved' %}{{ t.simulated_status }}{% else %}{{ t.demo_status }}{% endif %}</span>
+  <h1>Commande terminée</h1>
+  <p class="success-lede">Votre commande a été traitée avec succès.</p>
+  
+  <div class="success-details">
+    <div><span>{{ t.reference_label }}</span><strong class="reference" dir="ltr">{{ reference_display }}</strong></div>
+    <div><span>{{ t.order_summary }}</span><strong>{{ order.bundle_name }} · <bdi>{{ display_volume }}</bdi></strong></div>
+    <div><span>{{ t.total_label }}</span><strong class="amount" dir="ltr">{{ order.amount_fcfa }} FCFA</strong></div>
+    <div><span>{{ t.selected_method }}</span><strong>{% if order.payment_method == 'airtel_money' %}Airtel Money{% else %}Moov Money{% endif %}</strong></div>
+  </div>
+
+  <div class="safety-note"><span class="safety-icon" aria-hidden="true">◇</span><p>{{ t.provider_note }}</p></div>
+
+  {% if order.status == 'demo_created' %}
+  <form method="post" action="{% url 'simulate_payment' order.reference %}" class="simulation-form">
+    {% csrf_token %}
+    <button class="button button-primary" type="submit">{{ t.simulate_button }} <span aria-hidden="true">↗</span></button>
+    <p>{{ t.demo_text }}</p>
+  </form>
+  {% else %}
+  <div class="simulation-result" role="status">{{ t.simulation_done }}</div>
+  {% endif %}
+
+  <a class="button button-primary" href="{% url 'index' %}#bundles" style="margin-top:20px;">RETOUR AUX FORFAITS <span aria-hidden="true">↗</span></a>
+</section>
+{% endblock %}

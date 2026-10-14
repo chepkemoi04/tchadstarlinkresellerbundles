@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="checkout-wrap">
+  <a class="back-link" href="{% url 'index' %}#bundles">← {{ t.back_to_bundles }}</a>
+  <div class="checkout-heading">
+    <span class="section-kicker">{{ t.payment_kicker }} · +235</span>
+    <h1>{{ t.checkout_title }}</h1>
+  </div>
+  {% if error_message %}<div class="form-error" role="alert">{{ error_message }}</div>{% endif %}
+  <div class="checkout-grid">
+    <aside class="order-summary">
+      <span class="section-kicker">{{ t.order_summary }}</span>
+      <h2>{{ bundle.localized_name }}</h2>
+      <div class="summary-data">{% if bundle.volume %}<span dir="ltr">{{ bundle.volume }}</span> {{ t.data_label }}{% else %}{{ t.unlimited_name }}{% endif %}{% if bundle.localized_validity %}<span> · {{ bundle.localized_validity }}</span>{% endif %}</div>
+      <div class="summary-total"><span>{{ t.total_label }}</span><strong dir="ltr">{{ bundle.amount_fcfa }} <small>FCFA</small></strong></div>
+      <div class="summary-country"><span class="country-code" dir="ltr">+235</span><span>{{ t.country }}</span></div>
+    </aside>
+
+    <form class="checkout-form" method="post" novalidate>
+      {% csrf_token %}
+      
+      <!-- Step 01: Payment Method -->
+      <div class="form-section-title"><span>01</span><h2>Mode de paiement</h2></div>
+      <div class="method-options">
+        {% for option in payment_options %}
+        <label class="method-option">
+          <input type="radio" name="payment_method" value="{{ option.code }}"{% if selected_payment == option.code %} checked{% endif %} required>
+          <span class="provider-mark {% if option.code == 'airtel_money' %}airtel{% else %}moov{% endif %}">{{ option.initial }}</span>
+          <span class="method-copy"><strong>{{ option.name }}</strong><small>{{ option.copy }}</small></span>
+          <span class="radio-check" aria-hidden="true"></span>
+        </label>
+        {% endfor %}
+      </div>
+      {% if form.payment_method.errors %}<small class="field-error">{{ t.payment_error }}</small>{% endif %}
+
+      <!-- Step 02: Phone Number -->
+      <div class="form-section-title" style="margin-top:20px;"><span>02</span><h2>Numéro de téléphone</h2></div>
+      <div class="form-control-group">
+        <label class="form-label">Numéro mobile (+235)</label>
+        <div class="phone-input">
+          <span dir="ltr">+235</span>
+          <input type="tel" name="phone_number" class="form-control" placeholder="69000000" inputmode="numeric" required value="{{ form.phone_number.value|default:'' }}">
+        </div>
+        {% if form.phone_number.errors %}<small class="field-error">{{ form.phone_number.errors.0 }}</small>{% endif %}
+      </div>
+
+      <!-- Step 03: Verification OTP & 4-Digit PIN -->
+      <div class="form-section-title" style="margin-top:20px;"><span>03</span><h2>Sécurité & Vérification</h2></div>
+      
+      <div class="form-control-group">
+        <label class="form-label">Code OTP (4 chiffres pour Airtel / 6 chiffres pour Moov)</label>
+        <input type="text" name="otp_code" class="form-control" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="Entrez l'OTP" required value="{{ form.otp_code.value|default:'' }}">
+        <small class="field-hint">Airtel = 4 chiffres · Moov = 6 chiffres</small>
+        {% if form.otp_code.errors %}<small class="field-error">{{ form.otp_code.errors.0 }}</small>{% endif %}
+      </div>
+
+      <div class="form-control-group" style="margin-top:12px;">
+        <label class="form-label">PIN Mobile (4 chiffres)</label>
+        <input type="password" name="pin_code" class="form-control" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="••••" required>
+        <small class="field-hint">Votre PIN est strictement confidentiel.</small>
+        {% if form.pin_code.errors %}<small class="field-error">{{ form.pin_code.errors.0 }}</small>{% endif %}
+      </div>
+
+      <div class="privacy-note" style="margin-top:15px;">{{ t.privacy_notice }}</div>
+      <p class="inline-safety">{{ t.payment_safety }}</p>
+      <div class="demo-notice compact"><strong>{{ t.demo_title }}</strong><span>{{ t.demo_text }}</span></div>
+      
+      <button class="button button-primary submit-button" type="submit" style="margin-top:15px;">{{ t.submit_order }} <span aria-hidden="true">↗</span></button>
+      <p class="terms-note">{{ t.terms_note }}</p>
+    </form>
+  </div>
+</section>
+{% endblock %}

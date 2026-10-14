@@ -1,0 +1,41 @@
+{% load static %}<!doctype html>
+<html lang="{{ language }}" dir="{{ direction }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="{{ t.hero_text }}">
+  <title>{{ t.site_title }} · {{ t.section_title|striptags }}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body class="lang-{{ language }}">
+  <a class="skip-link" href="#main">{{ t.nav_bundles }}</a>
+  <header class="topbar">
+    <a class="brand" href="{% url 'index' %}" aria-label="{{ t.site_title }}">
+      <span class="brand-mark" aria-hidden="true"><i></i></span>
+      <span class="brand-word">STARLINK</span><span class="brand-separator"></span><span class="brand-country">{{ t.country }}</span>
+    </a>
+    <nav class="primary-nav" aria-label="{{ t.nav_bundles }}">
+      <a href="{% url 'index' %}#bundles">{{ t.nav_bundles }}</a>
+      <a href="{% url 'index' %}#payment">{{ t.nav_payments }}</a>
+    </nav>
+    <div class="top-actions">
+      <span class="country-code" dir="ltr">{{ t.dial_code }}</span>
+      <div class="language-switch" aria-label="Language">
+        {% for code,label in language_options %}<a class="language-link{% if language == code %} active{% endif %}" href="{% url 'set_language' code %}?next={{ request.get_full_path|urlencode }}" lang="{{ code }}"{% if language == code %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
+      </div>
+      <a class="header-button" href="{% url 'index' %}#payment">{{ t.nav_official }} <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="main" class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand"><span class="brand-mark small" aria-hidden="true"><i></i></span><span>STARLINK <em>· {{ t.country }}</em></span></div>
+    <p>{{ t.footer_note }}</p>
+    <div class="footer-code" dir="ltr">+235 · XAF</div>
+  </footer>
+</body>
+</html>
