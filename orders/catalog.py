@@ -1,3 +1,5 @@
+# orders/catalog.py
+
 BUNDLES = [
     {
         "code": "starter",
@@ -48,3 +50,16 @@ BUNDLES = [
         "featured": False,
     },
 ]
+
+
+def get_bundles():
+    """Returns the full list of bundles."""
+    return BUNDLES
+
+
+def get_bundle(code):
+    """Returns a specific bundle matching the given code, or None if not found."""
+    for bundle in BUNDLES:
+        if bundle["code"] == code:
+            return bundle
+    return None
