@@ -7,13 +7,36 @@
   <meta name="description" content="{{ t.hero_text }}">
   <title>{{ t.site_title }} · {{ t.section_title|striptags }}</title>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <style>
+    /* Sleek space background image with a dark overlay for text clarity */
+    body {
+        background: linear-gradient(rgba(8, 11, 18, 0.88), rgba(8, 11, 18, 0.94)), 
+                    url('https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+        background-size: cover;
+        color: #f8fafc;
+    }
+    /* Official Starlink Logo styling in header */
+    .starlink-logo-img {
+        height: 24px;
+        width: auto;
+        filter: brightness(0) invert(1);
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+  </style>
 </head>
 <body class="lang-{{ language }}">
   <a class="skip-link" href="#main">{{ t.nav_bundles }}</a>
   <header class="topbar">
     <a class="brand" href="{% url 'index' %}" aria-label="{{ t.site_title }}">
-      <span class="brand-mark" aria-hidden="true"><i></i></span>
-      <span class="brand-word">STARLINK</span><span class="brand-separator"></span><span class="brand-country">{{ t.country }}</span>
+      <!-- Official Starlink SVG Logo -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Starlink_Logo.svg" alt="Starlink Logo" class="starlink-logo-img">
+      <span class="brand-separator"></span><span class="brand-country">{{ t.country }}</span>
     </a>
     <nav class="primary-nav" aria-label="{{ t.nav_bundles }}">
       <a href="{% url 'index' %}#bundles">{{ t.nav_bundles }}</a>
@@ -33,7 +56,10 @@
   </main>
 
   <footer class="footer">
-    <div class="footer-brand"><span class="brand-mark small" aria-hidden="true"><i></i></span><span>STARLINK <em>· {{ t.country }}</em></span></div>
+    <div class="footer-brand">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Starlink_Logo.svg" alt="Starlink Logo" class="starlink-logo-img" style="height: 18px; opacity: 0.8;">
+      <span><em>· {{ t.country }}</em></span>
+    </div>
     <p>{{ t.footer_note }}</p>
     <div class="footer-code" dir="ltr">+235 · XAF</div>
   </footer>
