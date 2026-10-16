@@ -52,8 +52,8 @@ BUNDLES = [
 ]
 
 
-def get_bundles():
-    """Returns the full list of bundles."""
+def get_bundles(lang=None):
+    """Returns the full list of bundles, accepting optional language parameter."""
     return BUNDLES
 
 
