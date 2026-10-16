@@ -15,6 +15,27 @@
 .step-card h3{font-size:16px;margin:0 0 8px;letter-spacing:-.02em}
 .step-card p{font-size:11px;color:#98a4b3;margin:0;line-height:1.6}
 
+/* Ensure bundle selection cards and buttons are clickable and interactive */
+.bundle-card {
+    position: relative;
+}
+
+.bundle-button {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.bundle-button:hover {
+    transform: translateY(-1px);
+}
+
 @media(max-width:768px){
   .steps-grid{grid-template-columns:1fr}
 }
