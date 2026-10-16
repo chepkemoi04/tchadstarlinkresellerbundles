@@ -52,14 +52,31 @@ BUNDLES = [
 ]
 
 
-def get_bundles(lang=None):
-    """Returns the full list of bundles, accepting optional language parameter."""
-    return BUNDLES
+def get_bundles(lang="fr"):
+    """Returns the full list of bundles with localized names and validity."""
+    localized_list = []
+    for bundle in BUNDLES:
+        b_copy = bundle.copy()
+        b_copy["localized_name"] = b_copy["name"].get(lang, b_copy["name"].get("fr", ""))
+        val = b_copy.get("validity")
+        if isinstance(val, dict):
+            b_copy["localized_validity"] = val.get(lang, val.get("fr", ""))
+        else:
+            b_copy["localized_validity"] = None
+        localized_list.append(b_copy)
+    return localized_list
 
 
-def get_bundle(code):
-    """Returns a specific bundle matching the given code, or None if not found."""
+def get_bundle(code, lang="fr"):
+    """Returns a specific bundle matching the given code with localized attributes."""
     for bundle in BUNDLES:
         if bundle["code"] == code:
-            return bundle
+            b_copy = bundle.copy()
+            b_copy["localized_name"] = b_copy["name"].get(lang, b_copy["name"].get("fr", ""))
+            val = b_copy.get("validity")
+            if isinstance(val, dict):
+                b_copy["localized_validity"] = val.get(lang, val.get("fr", ""))
+            else:
+                b_copy["localized_validity"] = None
+            return b_copy
     return None
