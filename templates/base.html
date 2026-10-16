@@ -16,18 +16,13 @@
         color: #f8fafc;
     }
     /* Official Starlink Logo styling in header */
-    .starlink-logo-img {
-        height: 24px;
-        width: auto;
-        filter: brightness(0) invert(1);
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+    <a class="brand" href="{% url 'index' %}" aria-label="{{ t.site_title }}">
+  <svg class="starlink-logo-img" viewBox="0 0 300 50" width="110" height="24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M29.5 0C13.2 0 0 13.2 0 29.5S13.2 59 29.5 59 59 45.8 59 29.5 45.8 0 29.5 0zm0 54.5C15.7 54.5 4.5 43.3 4.5 29.5S15.7 4.5 29.5 4.5 54.5 15.7 54.5 29.5 43.3 54.5 29.5 54.5z"/>
+    <text x="72" y="37" font-family="Arial, sans-serif" font-weight="bold" font-size="34" fill="#ffffff" letter-spacing="4">STARLINK</text>
+  </svg>
+  <span class="brand-separator"></span><span class="brand-country">{{ t.country }}</span>
+</a>
   </style>
 </head>
 <body class="lang-{{ language }}">
@@ -35,7 +30,7 @@
   <header class="topbar">
     <a class="brand" href="{% url 'index' %}" aria-label="{{ t.site_title }}">
       <!-- Official Starlink SVG Logo -->
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Starlink_Logo.svg" alt="Starlink Logo" class="starlink-logo-img">
+      <img src="{% static 'images/starlink-logo.svg' %}" alt="Starlink Logo" class="starlink-logo-img">
       <span class="brand-separator"></span><span class="brand-country">{{ t.country }}</span>
     </a>
     <nav class="primary-nav" aria-label="{{ t.nav_bundles }}">
